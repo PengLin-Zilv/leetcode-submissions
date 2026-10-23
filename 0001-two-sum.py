@@ -3,7 +3,6 @@ class Solution:
         d = {}
 
         for i, n in enumerate(nums):
-            # for each num, we find its complement
             complement = target - n
             # we want to return complement index and i
             if complement in d:
