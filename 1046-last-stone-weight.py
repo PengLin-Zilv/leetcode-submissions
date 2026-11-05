@@ -1,29 +1,23 @@
 import heapq
 class Solution:
     def lastStoneWeight(self, stones: list[int]) -> int:
-        # given stones, stones[i] is the weight of ith stone
-        # each turn, we choose the heaviest two stone, smash them together
+        # given stones
+        # take 2 biggest stone and smash
+        # x and y, x <= y, so y is biggest and x is 2nd(or = y)
+        # if x == y, both destory
+        # if not, y weight become y - x
 
-        # x, y and x <= y
-        # if x == y: both destroy
-        # if x != y, x destroyed and y = y-x
-
-        # return the weight of last remaining stone. If none, return 0
-
-        # so we have a list
-        # we want to make it biggest first
-
+        # max heap, so we can do heap operations
         for i in range(len(stones)):
             stones[i] = -stones[i]
-
+        
         heapq.heapify(stones)
-        # now we have heap, can do heap operations:
-        # see heap[0], heappop, heappush
+        # now is max heap, but start with - sign, we have to put - when we try to use it
 
         while len(stones) > 1:
-            y = - heapq.heappop(stones)
-            x = - heapq.heappop(stones)
+            y = -heapq.heappop(stones)
+            x = -heapq.heappop(stones)
 
-            if x != y:
+            if y != x:
                 heapq.heappush(stones, -(y-x))
         return -stones[0] if stones else 0
