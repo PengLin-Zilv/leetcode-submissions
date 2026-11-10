@@ -30,7 +30,7 @@ class Solution:
                 elif token == "/":
                     # always truncates toward 0
                     result = int(left / right)
-                stack.append(result)
+                stack.append(int(result))
             else:
-                stack.append(token)
-        return int(stack[0])
+                stack.append(int(token))
+        return stack[0]
