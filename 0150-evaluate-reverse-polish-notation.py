@@ -1,31 +1,36 @@
 class Solution:
     def evalRPN(self, tokens: list[str]) -> int:
-        # valid operations: "+", "-", "*", "/"
-        # for /, we should do floor division and then return to int, int(x/y)
+        # tokens are numbers or operators
+        # we want to evaluate reverse Polish notation
+        # valid operations are +, -, *, /
 
-        # logic: when we meet an opration, we do them with the most recently added 2 numbers
-        # we pop 2 numbers: y = pop(), x = pop(), 
-        # and then x operation y, add this to the list
-        # continues, ...
+        # for example 3 5 +, becomes 3 + 5, so when we met operation:
+        # left operates right
+        # right = stack.pop()
+        # left = stack.pop() # second last item near the operation
+        # and then repeat, it is guranteed to be a valid expression
 
-        # we add numbers into a stack
+        # first we want a stack, to add token
+
         stack = []
+
         for token in tokens:
+            # two cases:
+            # 1. operations: "+", "-", "*", "/" - so we find left and right, operate, add them back to stack
+            # 2. number, add to the stack
             if token in ("+", "-", "*", "/"):
-                y = stack.pop()
-                x = stack.pop()     
-            # if token is an operator
-            # we pop, pop, compute, then put it back
+                right = int(stack.pop())
+                left = int(stack.pop())
                 if token == "+":
-                    result = x + y
+                    result = left + right
                 elif token == "-":
-                    result = x - y
+                    result = left - right
                 elif token == "*":
-                    result = x * y
-                else:
-                    result = int(x/y)
+                    result = left * right
+                elif token == "/":
+                    # always truncates toward 0
+                    result = int(left / right)
                 stack.append(result)
             else:
-                stack.append(int(token))
-        return stack[0]
-
+                stack.append(token)
+        return int(stack[0])
