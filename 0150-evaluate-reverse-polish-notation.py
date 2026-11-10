@@ -19,8 +19,8 @@ class Solution:
             # 1. operations: "+", "-", "*", "/" - so we find left and right, operate, add them back to stack
             # 2. number, add to the stack
             if token in ("+", "-", "*", "/"):
-                right = int(stack.pop())
-                left = int(stack.pop())
+                right = stack.pop()
+                left = stack.pop()
                 if token == "+":
                     result = left + right
                 elif token == "-":
@@ -30,7 +30,7 @@ class Solution:
                 elif token == "/":
                     # always truncates toward 0
                     result = int(left / right)
-                stack.append(int(result))
+                stack.append(result)
             else:
                 stack.append(int(token))
         return stack[0]
