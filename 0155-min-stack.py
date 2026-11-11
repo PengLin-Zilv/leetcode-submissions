@@ -1,38 +1,32 @@
 class MinStack:
+    # task, stack that can push pop top and get min in O(1)
+    # logic: use 2 stack, 1 for regular operations: push pop top
+    # min_stack for get min element, we will always put the min on the last position
 
     def __init__(self):
-        # operations: push, pop, top, retrieve min element in O(1)
-        # we will need 2 stack
-        # stack for push, pop, top
-        # min_stack will push, pop, but will use for getMin for O(1)
-        # how it works is both stack push and pop, top will get stack[-1] and getMin will get min_stack[-1]
-        # min_stack will always push (append) the min element to the last position
-
+        # initialize stack object
         self.stack = []
         self.min_stack = []
 
     def push(self, value: int) -> None:
+        # add value to both stack
+        # if min stack is empty, add value directly
+        # if not, compare the current last element to this value, append min 
         self.stack.append(value)
+
         if not self.min_stack:
             self.min_stack.append(value)
         else:
-            self.min_stack.append(min(value, self.min_stack[-1]))
+            self.min_stack.append(min(self.min_stack[-1], value))
 
     def pop(self) -> None:
-        # removes the top element
+        # pop removes the top element
         del self.stack[-1]
         del self.min_stack[-1]
 
     def top(self) -> int:
+        # get the top element
         return self.stack[-1]
 
     def getMin(self) -> int:
         return self.min_stack[-1]
-
-
-# Your MinStack object will be instantiated and called as such:
-# obj = MinStack()
-# obj.push(value)
-# obj.pop()
-# param_3 = obj.top()
-# param_4 = obj.getMin()
