@@ -1,24 +1,20 @@
 class Solution:
     def evalRPN(self, tokens: list[str]) -> int:
-        # tokens are numbers or operators
-        # we want to evaluate reverse Polish notation
-        # valid operations are +, -, *, /
+        # given tokens: a list of strings, representing an valid expression in RPN
+        # example tokens = ["2", "1", "+", "3", "*"]
+        # rule is left (second pop()) do operation to the right (first pop())
 
-        # for example 3 5 +, becomes 3 + 5, so when we met operation:
-        # left operates right
-        # right = stack.pop()
-        # left = stack.pop() # second last item near the operation
-        # and then repeat, it is guranteed to be a valid expression
+        # / -> truncates to 0 which means use / which gives a float, and int() to truncates towards 0
+        # the input will always be valid arithmetic expression in a RPN
 
-        # first we want a stack, to add token
+        # for each num, add to the stack
+        # for each opeartion, get left and right, do corresponding opeartion with them
 
         stack = []
 
         for token in tokens:
-            # two cases:
-            # 1. operations: "+", "-", "*", "/" - so we find left and right, operate, add them back to stack
-            # 2. number, add to the stack
-            if token in ("+", "-", "*", "/"):
+            if token in {"+", "-", "*", "/"}:
+                # we met operations, there is at least 2 number ahead of us
                 right = stack.pop()
                 left = stack.pop()
                 if token == "+":
@@ -28,9 +24,10 @@ class Solution:
                 elif token == "*":
                     result = left * right
                 elif token == "/":
-                    # always truncates toward 0
                     result = int(left / right)
                 stack.append(result)
+
             else:
+                # token is a string format of number, add the number
                 stack.append(int(token))
         return stack[0]
