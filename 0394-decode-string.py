@@ -1,25 +1,27 @@
 class Solution:
     def decodeString(self, s: str) -> str:
-        stack = [] # store (prev_char,k)
-        # then when we met ], we will make prev + k * cur
+        num, string = 0, ""
+        # num keeps track of the num
+        # string keeps track of current string (will be pushed to stack each time sees "[")
 
-        cur, num = "", 0
-        # initialize cur and num, cur stores the current characters, num will be the k
+        stack = [] # keep track of the prev string and pop() after "]" to get the most inner decoding string
 
         for c in s:
-
             if c.isdigit():
                 num = num * 10 + int(c)
+                # num can be [1,300]
             elif c == "[":
-                # when c = left bracket, we clear the cur and num, append them into stack
-                stack.append((cur, num))
-                cur, num = "", 0
-
+                # if c is left bracket, append current string and num into stack, wait for "]" to pop
+                stack.append((num, string))
+                num, string = 0, ""
             elif c == "]":
-                # when c = right bracket, we do the opeartion
-                prev, k = stack.pop()
-                cur = prev + k * cur
-            
+                # if c is right bracket, k and prev = pop()
+                # add them into string
+                k, prev = stack.pop()
+                string = prev + k*string
+
             else:
-                cur += c
-        return cur
+                # if c is a letter
+                # add to string
+                string += c
+        return string
